@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1654</width>
+    <height>1002</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="GLViewWidget" name="MoleculeWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>801</width>
+      <height>761</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>834</x>
+      <y>0</y>
+      <width>361</width>
+      <height>491</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Constraints</string>
+     </attribute>
+     <widget class="QWidget" name="formLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>296</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="coordNumLabel">
+         <property name="text">
+          <string>Coord Num</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="userCoordNum"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Metal Center/Core Num</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="user_mc"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="chargeLabel">
+         <property name="text">
+          <string>Charge</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="chargeLineEdit"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="spiLabel">
+         <property name="text">
+          <string>Multiplicity</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="uMultiplicity"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>Freezes</string>
+     </attribute>
+     <widget class="QLabel" name="frozenLabel">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>60</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Frozen Bonds</string>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="tableWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>90</y>
+        <width>351</width>
+        <height>191</height>
+       </rect>
+      </property>
+      <row>
+       <property name="text">
+        <string>Freeze</string>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>Atom 1</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Atom 2</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Atom 3</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Atom 4</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QPushButton" name="newFreezeRow">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>300</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>New</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="removeFreezeRow">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>300</y>
+        <width>81</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Remove</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>Libraries</string>
+     </attribute>
+     <widget class="QTreeWidget" name="fileWidget">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>30</y>
+        <width>181</width>
+        <height>361</height>
+       </rect>
+      </property>
+      <column>
+       <property name="text">
+        <string notr="true">1</string>
+       </property>
+      </column>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_4">
+     <attribute name="title">
+      <string>Ligands</string>
+     </attribute>
+     <widget class="GLViewWidget" name="LigandWidget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>170</y>
+        <width>351</width>
+        <height>301</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QWidget" name="formLayoutWidget_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>331</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="smilesLabel">
+         <property name="text">
+          <string>Smiles</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="smilesLineEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="showSmilesBelowLabel">
+         <property name="text">
+          <string>show smiles below</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="showSmilesBelowCheckBox"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="titleLabel">
+         <property name="text">
+          <string>Title</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="titleLineEdit"/>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="bondingAtomLabel">
+         <property name="text">
+          <string>Bonding Atoms</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="bondingAtomLineEdit"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="generateMolFileLabel">
+         <property name="text">
+          <string>Generate mol file</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="generateMolFileCheckBox"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="generateXyzFileLabel">
+         <property name="text">
+          <string>Generate xyz file</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="generateXyzFileCheckBox"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="addNewLigandButton">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>140</y>
+        <width>111</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add New Ligand</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="formLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>500</y>
+      <width>160</width>
+      <height>170</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout_2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="atomTypeLabel">
+       <property name="text">
+        <string>AtomType</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="atomTypeLineEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="atomNumberLabel">
+       <property name="text">
+        <string>AtomNumber</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="atomNumberLineEdit"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="xLabel">
+       <property name="text">
+        <string>X</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="xLineEdit"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="yLabel">
+       <property name="text">
+        <string>Y</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="zLabel">
+       <property name="text">
+        <string>Z</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="zLineEdit"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="yLineEdit"/>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>1040</x>
+      <y>520</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Replace</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1654</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionLoad_Molecule"/>
+   </widget>
+   <widget class="QMenu" name="menuOption">
+    <property name="title">
+     <string>Option</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionViewAtom_num"/>
+   </widget>
+   <widget class="QMenu" name="menuToolBars">
+    <property name="title">
+     <string>ToolBars</string>
+    </property>
+    <addaction name="actionSelect_Multiple"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuOption"/>
+   <addaction name="menuView"/>
+   <addaction name="menuToolBars"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionLoad_Molecule">
+   <property name="text">
+    <string>Load Molecule</string>
+   </property>
+  </action>
+  <action name="actionViewAtom_num">
+   <property name="text">
+    <string>Atom Number</string>
+   </property>
+  </action>
+  <action name="actionSelect_Multiple">
+   <property name="text">
+    <string>Select Multiple</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GLViewWidget</class>
+   <extends>QWidget</extends>
+   <header>pyqtgraph.opengl</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
