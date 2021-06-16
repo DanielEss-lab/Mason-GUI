@@ -471,7 +471,7 @@ class MainWindow(QtWidgets.QMainWindow):
             templateName = os.path.splitext(templateName)[0]
             ligandList, ligPathList = self.ligandsSelected() #get the ligands that the user selects
             self.updateUserLigFolder(ligandList, ligPathList)
-            self.updateConfigFile(templateName, nCoordNum, nCoreNum, nCharge, nMultiplicity, nFrozen
+            self.updateConfigFile(templateName, nCoordNum, nCoreNum, nCharge, nMultiplicity, nFrozen)
               
 
 def main():
