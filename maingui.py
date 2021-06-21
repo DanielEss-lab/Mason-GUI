@@ -92,11 +92,9 @@ def calcLinesToDraw(self,x ,y ,z, atom_type, atom_Num, mainOrLigand):
         for i in range(len(x)):
             for q in range(i,len(x)):
                 dist = calcDistance((x[i],y[i],z[i]),(x[q],y[q],z[q]))
-                #if dist < bond_distance_lib[atom_type[i]] or dist < bond_distance_lib[atom_type[q]]:
-                #if dist < 2*ob.GetCovalentRad(atom_Num[i]) or dist < 2*ob.GetCovalentRad(atom_Num[q]):
                 if dist < (ob.GetCovalentRad(atom_Num[i]) + ob.GetCovalentRad(atom_Num[q])) * 1.1:
-                    x1 = (x[i] + ((x[q]-x[i])* atom_radius_lib[str(atom_type[i])]/2),y[i] + ((y[q]-y[i])* atom_radius_lib[str(atom_type[i])]/2)            ,z[i] + ((z[q]-z[i])* atom_radius_lib[str(atom_type[i])]/2))
-                    y1 = (x[q] + ((x[i]-x[q])* atom_radius_lib[str(atom_type[q])]/2),y[q] + ((y[i]-y[q])* atom_radius_lib[str(atom_type[q])]/2),z[q] + ((z[i]-z[q])* atom_radius_lib[str(atom_type[q])]/2))
+                    x1 = (x[i] + ((x[q]-x[i])* 0.2*ob.GetVdwRad(atom_Num[i])/2),y[i] + ((y[q]-y[i])* 0.2*ob.GetVdwRad(atom_Num[i])/2)            ,z[i] + ((z[q]-z[i])* 0.2*ob.GetVdwRad(atom_Num[i])/2))
+                    y1 = (x[q] + ((x[i]-x[q])* 0.2*ob.GetVdwRad(atom_Num[q])/2),y[q] + ((y[i]-y[q])* 0.2*ob.GetVdwRad(atom_Num[q])/2),z[q] + ((z[i]-z[q])* 0.2*ob.GetVdwRad(atom_Num[q])/2))
                     pts = np.array([x1,y1])
                     sh1 = gl.GLLinePlotItem(pos = pts, width = 2.5)
                     sh1.setGLOptions('opaque')
@@ -105,14 +103,13 @@ def calcLinesToDraw(self,x ,y ,z, atom_type, atom_Num, mainOrLigand):
         for i in range(len(l_x)):
             for q in range(i,len(l_x)):
                 dist = calcDistance((l_x[i],l_y[i],l_z[i]),(l_x[q],l_y[q],l_z[q]))
-                #if dist < bond_distance_lib[l_atom_type[i]] or dist < bond_distance_lib[l_atom_type[q]]:
                 if dist < 2*ob.GetCovalentRad(l_atom_Num[i]) or dist < 2*ob.GetCovalentRad(l_atom_Num[q]):
-                    x1 = (l_x[i] + ((l_x[q]-l_x[i])* atom_radius_lib[str(l_atom_type[i])]/2),l_y[i] + ((l_y[q]-l_y[i])* atom_radius_lib[str(l_atom_type[i])]/2)        ,l_z[i] + ((l_z[q]-l_z[i])* atom_radius_lib[str(l_atom_type[i])]/2))
-                    y1 = (l_x[q] + ((l_x[i]-l_x[q])* atom_radius_lib[str(l_atom_type[q])]/2),l_y[q] + ((l_y[i]-l_y[q])* atom_radius_lib[str(l_atom_type[q])]/2),l_z[q] + ((l_z[i]-l_z[q])* atom_radius_lib[str(l_atom_type[q])]/2))
+                    x1 = (l_x[i] + ((l_x[q]-l_x[i])* 0.2*ob.GetVdwRad(l_atom_Num[i])/2),l_y[i] + ((l_y[q]-l_y[i])* 0.2*ob.GetVdwRad(l_atom_Num[i])/2)        ,l_z[i] + ((l_z[q]-l_z[i])* 0.2*ob.GetVdwRad(l_atom_Num[i])/2))
+                    y1 = (l_x[q] + ((l_x[i]-l_x[q])* 0.2*ob.GetVdwRad(l_atom_Num[q])/2),l_y[q] + ((l_y[i]-l_y[q])* 0.2*ob.GetVdwRad(l_atom_Num[q])/2),l_z[q] + ((l_z[i]-l_z[q])* 0.2*ob.GetVdwRad(l_atom_Num[q])/2))
                     pts = np.array([x1,y1])
                     sh1 = gl.GLLinePlotItem(pos = pts, width = 2.5)
                     sh1.setGLOptions('opaque')
-                    self.ligWindow.addItem(sh1) #testing ligand window       
+                    self.ligWindow.addItem(sh1)     
 
 #loads the tree structure from the library folder (Libs)
 def load_project_structure(self,startpath, tree):
@@ -164,7 +161,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.smilesLineEdit = self.findChild(QtWidgets.QLineEdit, 'smilesLineEdit')
         self.showSmilesBelowCheckBox = self.findChild(QtWidgets.QCheckBox, 'showSmilesBelowCheckBox')
         self.showSmilesBelowCheckBox.stateChanged.connect(self.showSmilesInLigandTab)
-
         #constraints tab
         self.chargeLineEdit = self.findChild(QtWidgets.QLineEdit, 'chargeLineEdit')
         self.uMultiplicity = self.findChild(QtWidgets.QLineEdit, 'uMultiplicity')
@@ -178,13 +174,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.addRowButton.clicked.connect(self.addRow)
         self.removeRowButton = self.findChild(QtWidgets.QPushButton, 'removeFreezeRow')
         self.removeRowButton.clicked.connect(self._removeRow)
-        
         #replace atom button, might replace this with something else
         self.replaceButton = self.findChild(QtWidgets.QPushButton, 'pushButton_2')
         self.replaceButton.clicked.connect(self.replaceAtoms)
         #next line doesn't work
         self.showAtomNumButton = self.findChild(QtWidgets.QLineEdit, 'actionViewatomic_num')
-        
         #self.showAtomNumButton.triggered.connect(self.showAtomNum)
         global atom_type_edit
         global atomic_num
@@ -251,8 +245,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 line = iF.readline()
             iF.close()
             for i in range(len(x)):
-                md = gl.MeshData.sphere(rows=10, cols = 20, radius = atom_radius_lib[str(atom_type[i])])
-                #md = gl.MeshData.sphere(rows=10, cols = 20, radius = ob.GetCovalentRad(atom_Num[i]))
+                md = gl.MeshData.sphere(rows=10, cols = 20, radius = 0.2*ob.GetVdwRad(atom_Num[i]))
                 m = gl.GLMeshItem(meshdata=md, smooth = False)
                 m.setColor(QtGui.QColor(atom_type_to_color.get(atom_type[i],'pink'))) #color is pink if not in atom_type_to_color
                 atom_color = atom_type_to_color.get(atom_type[i],'pink')
@@ -281,7 +274,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 line = iF.readline()
             iF.close()
             for i in range(len(l_x)):
-                #md = gl.MeshData.sphere(rows=10, cols = 20, radius = atom_radius_lib[str(l_atom_type[i])])
                 md = gl.MeshData.sphere(rows=10, cols = 20, radius = 0.2*ob.GetVdwRad(l_atom_Num[i]))
                 m = gl.GLMeshItem(meshdata=md, smooth = False)
                 m.setColor(QtGui.QColor(atom_type_to_color.get(l_atom_type[i],'pink'))) #color is pink if not in atom_type_to_color
@@ -387,7 +379,7 @@ class MainWindow(QtWidgets.QMainWindow):
             return True
         else: return False
 
-    def ligandsSelected(self): #iterates through the ligands folder (whih is a tree or filewidget?)
+    def ligandsSelected(self): #iterates through the ligands folder (which is a tree or filewidget?)
         iterator = QtGui.QTreeWidgetItemIterator(self.projectTreeWidget, QtGui.QTreeWidgetItemIterator.Checked)
         ligandList = []
         ligPathList = []
@@ -438,7 +430,7 @@ class MainWindow(QtWidgets.QMainWindow):
             elif 'freeze =' in strippedLine:
                 newLine = strippedLine.replace(strippedLine, 'freeze = ' + nFrozen)
             elif 'LigandLibDir =' in strippedLine:
-                newLine = strippedLine.replace(strippedLine, 'LigandLibDir = userSelectedLigands/' + templateName + '/')
+                newLine = strippedLine.replace(strippedLine, 'LigandLibDir = userSelectedLigands/')
             newFileContent += newLine +'\n'
         iF.close()
         
