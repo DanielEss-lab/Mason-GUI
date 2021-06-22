@@ -6,8 +6,6 @@ import pyqtgraph.opengl as gl
 import sys, os, subprocess, shutil
 import numpy as np
 from openbabel import openbabel as ob
-atom_radius_lib={'Fe':0.5, 'N':0.3,'P':0.4,'C':0.3,'H':0.15, 'Pt':0.4, 'O':0.25, 'F':0.2, 'S':0.3}
-bond_distance_lib={'Fe':2.04, 'N':2, 'C':1.55, 'P':1.9, 'H':1.2, 'Pt':2.2}
 atom_type_to_color={'Fe':'orange', 'N':'blue', 'C':'gray', 'P':'yellow', 'H':'lightGray', 'Pt':'white',\
 'O':'red', 'F':'lightBlue', 'S':'brown'}
 
@@ -257,7 +255,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 m.resetTransform()
                 m.translate(x[i], y[i], z[i], local=True)
                 #added an m element here
-                #atom_list.append(Atom(atom_type[i],x[i],y[i],z[i], atom_radius_lib[str(atom_type[i])], m, atom_color))
                 atom_list.append(Atom(atom_type[i],x[i],y[i],z[i], 0.2*ob.GetVdwRad(atom_Num[i]), m, atom_color))
                 object_map[m] = i
                 self.molWindow.addItem(m)
@@ -286,7 +283,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 m.resetTransform()
                 m.translate(l_x[i], l_y[i], l_z[i], local=True)
                 #added an m element here
-                #l_atom_list.append(Atom(l_atom_type[i],l_x[i],l_y[i],l_z[i], atom_radius_lib[str(l_atom_type[i])], m, atom_color))
                 l_atom_list.append(Atom(l_atom_type[i],l_x[i],l_y[i],l_z[i], 0.2*ob.GetVdwRad(l_atom_Num[i]), m, atom_color))
                 l_object_map[m] = i
                 self.ligWindow.addItem(m)
@@ -407,9 +403,13 @@ class MainWindow(QtWidgets.QMainWindow):
                 print('Failed to delete %s. Reason: %s' % (file_path, e))
 
         for i in range(len(ligandList)):
-            ligName = os.path.splitext(ligandList[i])[0] #gets rid of smi extension
             devNull = open(os.devnull, 'w')
-            subprocess.run(['obabel',ligPathList[i],'-O','Mason\\userSelectedLigands\\' + ligName + '.mol','-omol','-m','--gen3d'],stderr=devNull)
+            shutil.copyfile(ligPathList[i],'Mason\\userSelectedLigands\\' + ligandList[i])
+        subprocess.run(['obabel', 'Mason\\userSelectedLigands\\*.smi', '-O', 'Mason\\userSelectedLigands\\*.mol', '-omol', '--gen3d'], stderr=devNull)
+        for i in range(len(ligandList)): 
+            if ligandList[i].endswith('.smi'): 
+                os.remove(os.path.join('Mason\\userSelectedLigands\\', ligandList[i]))
+
     
     def updateConfigFile(self, templateName,nCoordNum, nCoreNum, nCharge, nMultiplicity, nFrozen):
         newFileContent = ''
@@ -420,7 +420,7 @@ class MainWindow(QtWidgets.QMainWindow):
             if 'coordNum =' in strippedLine:
                 newLine = strippedLine.replace(strippedLine, 'coordNum = ' + nCoordNum)
             elif 'Template =' in strippedLine:
-                newLine = strippedLine.replace(strippedLine, 'Template = ' + template)
+                newLine = strippedLine.replace(strippedLine, 'Template = template.xyz')
             elif 'coreNum' in strippedLine:
                 newLine = strippedLine.replace(strippedLine, 'coreNum = ' + nCoreNum)
             elif 'charge =' in strippedLine:
@@ -438,8 +438,8 @@ class MainWindow(QtWidgets.QMainWindow):
         writingFile.write(newFileContent)
         writingFile.close()
 
-    def updateMason(self):
-        pass
+    def copyTemplate(self): #copy the template inside of mason so everything is less messy
+        shutil.copyfile(template,'Mason\\template.xyz')
 
     def replaceAtoms(self):
         nCoordNum = self.userCoordNum.text()
@@ -447,6 +447,8 @@ class MainWindow(QtWidgets.QMainWindow):
         nCharge = self.chargeLineEdit.text()
         nMultiplicity = self.uMultiplicity.text()
         nFrozen = self.readFreezeTable()
+        templateName = os.path.basename(template)
+        templateName = os.path.splitext(templateName)[0]
         
         if not self.isEmpty(nCoordNum, nCoreNum, nCharge, nMultiplicity, nFrozen): 
             msg = QMessageBox()
@@ -454,14 +456,13 @@ class MainWindow(QtWidgets.QMainWindow):
             msg.setWindowTitle('Proceed to ligand replacement')
             msg.setIcon(QMessageBox.Question)
             msg.setText('Is this correct?\ncoordNum = ' + nCoordNum
-            +'\nTemplate = ' + template + '\ncoreNum = ' + nCoreNum
+            +'\nTemplate = ' + templateName + '\ncoreNum = ' + nCoreNum
             +'\ncharge = '+ nCharge + '\nmultiplicity = ' + nMultiplicity +'\nfreeze = ' + nFrozen)
             x = msg.exec_()
 
         if x == QMessageBox.Ok:
-            templateName = os.path.basename(template)
-            templateName = os.path.splitext(templateName)[0]
             ligandList, ligPathList = self.ligandsSelected() #get the ligands that the user selects
+            self.copyTemplate()
             self.updateUserLigFolder(ligandList, ligPathList)
             self.updateConfigFile(templateName, nCoordNum, nCoreNum, nCharge, nMultiplicity, nFrozen)
               
